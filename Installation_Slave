@@ -1,0 +1,70 @@
+@@@ Kubernetes Jetson GPU Clusters Installation Guide
+@@@ Vincent Chan
+
+In Slave node (Nvidia Jetson TX2)
+
+1) Install Jetpack 4.2.2 without tensorflow in SDK Manager
+
+2) Install tensorflow 1.14.0 of nvidia-19.07
+   $ sudo apt-get update && sudo apt-get upgrade
+   $ sudo apt-get install libhdf5-serial-dev hdf5-tools libhdf5-dev zlib1g-dev zip libjpeg8-dev liblapack-dev libblas-dev gfortran
+   $ sudo apt-get install python3-pip
+   $ sudo pip3 install -U pip testresources setuptools
+   $ sudo pip3 install -U numpy==1.16.1 future==0.17.1 mock==3.0.5 h5py==2.9.0 keras_preprocessing==1.0.5 keras_applications==1.0.8 gast==0.2.2 futures protobuf pybind11
+   $ sudo pip3 install --extra-index-url https://developer.download.nvidia.com/compute/redist/jp/v42 tensorflow-gpu==1.14.0+nv19.7
+
+3) Resources monitoring (optional)
+  $ sudo -H pip install -U jetson-stats
+  $ sudo jtop
+   
+
+4) In order to save resources, turn off the GUI mode
+   $ sudo systemctl set-default multi-user.target
+   ** Change 'multi-user.target' to 'graphical.target' can back to GUI mode
+
+5) Set to the highest power mode: MODE MAXN
+   $ sudo nvpmodel -m 0
+
+6) Disable swap since it may cause issue with Kubernetes
+   $ sudo swapoff -a
+
+7) Edit /etc/docker/daemon.json
+{
+	"default-runtime": "nvidia",
+	"runtimes": {
+	"nvidia": {
+	"path": "nvidia-container-runtime",
+	"runtimeArgs":[]
+		}
+	}
+
+}
+
+8) Refresh system
+   $ sudo apt-get update
+   $ sudo apt-get dist-upgrade
+
+9) Add current user to docker group
+   $ sudo groupadd docker
+   $ sudo usermod -aG docker ianvidia
+   $ newgrp docker
+   $ sudo reboot
+
+10) Test Docker GPU support
+   $ sudo docker run -it jitteam/devicequery ./deviceQuery
+   ** It should display PASS if all setup are done correctly
+
+11) Install curl
+   $ sudo apt install curl
+
+11) Install kubernetes
+   $ sudo apt-get update && sudo apt-get install -y apt-transport-https gnupg2
+   $ curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+   $ echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+   $ sudo apt-get update
+   $ sudo apt-get install -y kubelet kubeadm kubectl kubernetes-cni
+
+
+
+
+
