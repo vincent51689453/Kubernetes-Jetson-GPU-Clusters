@@ -64,6 +64,12 @@ In Slave node (Nvidia Jetson TX2)
    $ sudo apt-get update
    $ sudo apt-get install -y kubelet kubeadm kubectl kubernetes-cni
 
+12) Join clusers
+   $ sudo kubeadm join 192.168.0.10:6443 --token cjlrsf.c8078jne1hwc135w --discovery-token-ca-cert-hash sha256:3393f96c41473078abb31682edb0bd358ecb5d2d1ad76198c42b76c102b88a66
+
+  **Please note that the tokens are various.
+
+
 
 
 

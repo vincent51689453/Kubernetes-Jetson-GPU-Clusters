@@ -67,6 +67,22 @@ In Master node (Nvidia Jetson Xavier)
 12) Configure master node
    $ sudo kubeadm init --pod-network-cidr 10.244.10.0/16
 
+   **If there is an issue and you want to reset the cluster
+   $ sudo kubeadm reset
+
+13) Follow the instructions in the terminal and continue
+   $ mkdir -p $HOME/.kube
+   $ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+   $ sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+14) List out all the nodes
+   $ sudo kubectl get nodes
+
+15) Change slave label from <none> to worker
+    Assume "jetson-tx2-004" is the work name
+   $ kubectl label node jetson-tx2-004 node-role.kubernetes.io/worker=worker
+
+
 
 
 
