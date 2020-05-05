@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: devicequery
+spec:
+  containers:
+    - name: nvidia
+      image: jitteam/devicequery:latest
+      command: [ "./deviceQuery" ]
