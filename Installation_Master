@@ -86,8 +86,21 @@ In Master node (Nvidia Jetson Xavier)
 
 15) Change slave label from <none> to worker
     Assume "jetson-tx2-004" is the work name
-   $ kubectl label node jetson-tx2-004 node-role.kubernetes.io/worker=worker
+   $ sudo kubectl label node jetson-tx2-004 node-role.kubernetes.io/worker=worker
 
+16) Check if it works
+   $ sudo kubectl apply -f gpu-clusters-test.yml
+   $ kubectl logs devicequery
+
+   ** If "ContainerCreating", check the pod
+   $ sudo kubectl get pods --all-namespaces
+   $ sudo kubectl describe pods
+
+   ** If the problem is "no such files -> /run/flannel/subnet.env", copy from master to all any works missing
+
+   **If everything goes well, you will see "PASS" again.
+
+17) 
 
 
 
