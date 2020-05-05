@@ -46,9 +46,10 @@ In Slave node (Nvidia Jetson TX2)
 
 9) Add current user to docker group
    $ sudo groupadd docker
-   $ sudo usermod -aG docker ianvidia
+   $ sudo usermod -aG docker nvidiatx2-00x
    $ newgrp docker
    $ sudo reboot
+   **nvidiatx2-00x is your account name 
 
 10) Test Docker GPU support
    $ sudo docker run -it jitteam/devicequery ./deviceQuery
