@@ -79,9 +79,16 @@ In Master node (Nvidia Jetson Xavier)
    $ sudo kubectl get nodes
    **Master should be in "READY"
 
+   If this returns an error message like: “The connection to the server localhost:8080 was refused — did you specify the right host or port?”,
+   $ sudo cp /etc/kubernetes/admin.conf $HOME/
+   $ sudo chown $(id -u):$(id -g) $HOME/admin.conf
+   $ export KUBECONFIG=$HOME/admin.conf
+
 15) Change slave label from <none> to worker
     Assume "jetson-tx2-004" is the work name
    $ kubectl label node jetson-tx2-004 node-role.kubernetes.io/worker=worker
+
+
 
 
 
