@@ -75,6 +75,11 @@ In Master node (Nvidia Jetson Xavier)
    $ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
    $ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
+15) Apply flannel
+   $ sysctl net.bridge.bridge-nf-call-iptables=1
+   $ curl -O https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+   $ sudo kubectl apply -f kube-flannel.yml
+
 15) List out all the nodes
    $ sudo kubectl get nodes
    **Master should be in "READY"
