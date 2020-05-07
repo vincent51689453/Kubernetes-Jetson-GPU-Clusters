@@ -113,4 +113,16 @@ In Master node (Nvidia Jetson Xavier)
 
 
 
+-------------------------------------------------------------------------------------------------------------------------
+
+Error 1: "cni0" already has an IP address different from 10.244.1.1/24
+Inside the node:
+$sudo ifconfig  cni0 down
+$sudo brctl delbr cni0
+$sudo ip link delete flannel.1
+#./slave_join_master.sh
+brctl delbr cni0
+
+
+
 
