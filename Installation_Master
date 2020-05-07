@@ -92,6 +92,8 @@ In Master node (Nvidia Jetson Xavier)
    $ sudo kubectl apply -f gpu-clusters-test.yml
    $ kubectl logs devicequery
 
+   **.yml is inside YMAL-Config/pod
+
    ** If "ContainerCreating", check the pod
    $ sudo kubectl get pods --all-namespaces
    $ sudo kubectl describe pods

@@ -1,0 +1,33 @@
+#Created by VincetChan
+apiVersion: v1
+kind: Pod
+metadata:
+  name: deeplearning
+spec:
+  hostNetwork: false
+  containers:
+    - name: jetson-tensorflow
+      image: nvcr.io/nvidia/l4t-base:r32.4.2
+      command: [ "/bin/bash", "-ce", "tail -f /dev/null" ]
+      ports:
+        - containerPort: 8888
+          hostPort: 3000
+          name: main-port
+          protocol: TCP
+        - containerPort: 6064
+          hostPort: 3001
+          name: user-port-1
+          protocol: TCP
+        - containerPort: 6066
+          hostPort: 3002
+          name: user-port-2
+          protocol: TCP
+
+
+      volumeMounts:
+        - name: workspace
+          mountPath : /workspace
+  volumes:
+  - name: workspace
+    hostPath:
+      path: /home/docker-workspace

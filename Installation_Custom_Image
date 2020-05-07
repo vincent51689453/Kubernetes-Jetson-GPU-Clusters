@@ -16,3 +16,8 @@ Assume you have finished the Installation_Slave and Installation_Master, master 
 3) In order to access the container called jetson-tensorflow
    $ ./access_jetson_tensorflow.sh
 
+   ####
+   Container Detail:
+   1. Container Path = /workspace --> /home/docker-workspace (host)
+   2. Port = 
+

@@ -66,10 +66,10 @@ In Slave node (Nvidia Jetson TX2)
    $ sudo apt-get install -y kubelet kubeadm kubectl kubernetes-cni
 
 12) Join clusers
-   $ ./slave_join_master.sh
+   $ ./Maintainance/slave_join_master.sh
 
 13) Acitivate kubernetes service (everytime power on)
-   $ ./start_node.sh
+   $ ./Maintainance/start_node.sh
 
   **Please note that the tokens are various.
 
