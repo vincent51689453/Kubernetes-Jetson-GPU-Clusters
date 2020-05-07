@@ -1,0 +1,18 @@
+@@@ Kubernetes Custom Image Installation and Configuration
+@@@ Vincent Chan
+
+Assume you have finished the Installation_Slave and Installation_Master, master and all workers are in "READY".
+
+1) Consider a sutiable docker image which fir arm64.
+   Example: nvidia-l4t-base for jetson series in ngc
+   It is not necessary to pull the image manually. The assigned worker will pull and setup the container automatically.
+   In master: $ sudo kubectl apply -f custom-gpu-cluster.yaml
+
+2) Check the detail and status of the pod
+   $ sudo kubectl get pods
+   $ sudo kubectl describe pod deeplearning
+   ** deeplearning is the name of your pod
+
+3) In order to access the container called jetson-tensorflow
+   $ ./access_jetson_tensorflow.sh
+
