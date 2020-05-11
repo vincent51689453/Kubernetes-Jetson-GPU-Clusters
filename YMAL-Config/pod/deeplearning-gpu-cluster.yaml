@@ -4,30 +4,46 @@ kind: Pod
 metadata:
   name: deeplearning
 spec:
-  hostNetwork: false
+  hostNetwork: true
   containers:
     - name: jetson-tensorflow
-      image: nvcr.io/nvidia/l4t-base:r32.4.2
+      image: nvcr.io/nvidia/l4t-base:r32.2.1
       command: [ "/bin/bash", "-ce", "tail -f /dev/null" ]
       ports:
         - containerPort: 8888
-          hostPort: 3000
+          #hostPort: 3000
+          hostPort: 8888
           name: main-port
           protocol: TCP
         - containerPort: 6064
-          hostPort: 3001
+          #hostPort: 3001
+          hostPort: 6064
           name: user-port-1
           protocol: TCP
         - containerPort: 6066
-          hostPort: 3002
+          #hostPort: 3002
+          hostPort: 6066
           name: user-port-2
           protocol: TCP
-
-
+      env:
+        - name: DISPLAY
+          value: ":1"
+        #- name: XAUTHORITY
+        #  value: XAUTHORITY
+        - name: NVIDIA_DRIVER_CAPABILITIES
+          value: all
+        - name: QT_X11_NO_MITSHM
+          value: "1"
       volumeMounts:
         - name: workspace
           mountPath : /workspace
+        - name: x-display
+          mountPath : /tmp/.X11-unix/
   volumes:
   - name: workspace
     hostPath:
       path: /home/docker-workspace
+  - name: x-display
+    hostPath:
+      path: /tmp/.X11-unix/
+

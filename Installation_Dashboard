@@ -1,0 +1,30 @@
+@@@ Kubernetes Jetson GPU Clusters Dashboard Installation Guide
+@@@ Vincent Chan
+
+https://kubernetes.io/zh/docs/tasks/access-application-cluster/web-ui-dashboard/
+
+In Master node (Nvidia Jetson Xavier)
+
+1) Apply official ymal
+   $ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0/aio/deploy/recommended.yaml
+
+2) Start kubectl proxy
+   $ sudo kubectl proxy
+
+3) Open browser in any node
+    http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/
+
+4) You will be able see a login page. (Use token)
+
+5) Apply admin-role
+   $ sudo kubectl create -f admin-role.ymal
+
+5) Get admin-token secret name
+   $ sudo kubectl -n kube-system get secret|grep admin-token
+
+6) Get token value
+   $ sudo kubectl -n kube-system describe secret admin-token-sm4pn
+   **sm4pn is only for this case
+
+   Token:
+   eyJhbGciOiJSUzI1NiIsImtpZCI6IjVzTUJtRWxRVmpWWU9QUmtITWxZREJCVHpmLUNHZHNpa2VWVXV6TEw0WWsifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhZG1pbi10b2tlbi1zbTRwbiIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50Lm5hbWUiOiJhZG1pbiIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50LnVpZCI6IjMzN2I1MTEwLTkxYjYtNGUxMy1iZjIxLTU3ZDRkZjliNjllYyIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDprdWJlLXN5c3RlbTphZG1pbiJ9.rlow60EvtPM9tVq9HBqqsrmhW_2mLGLnZjF62kcUu8ycjKWMg-Pn3dGDXE0WOpTXHNG7sPAwzKEOjo6FNNPf0CvUvTHmcpemx22gwCgFEnjEIoXxY4fQeOYSXWKuxF1rijhfwXd7AIDx4CsQB-qN1w5KXPv4fnCWpdJP5lxkK5idIJh5LuPsRrUHF4ytcH7DRzWN3rdSPIub6wu2w4Z1qWd_kGB9qp5Oh0IOrx4FwaAC6NemhNQxdxPogl1kuY4Rh1SdgdhRWplBn930q9fpOOXTaEdtFST_wpO8C6dN3l5kdpMne34VnRSik_WkSVZTghwZo0O6ucJAzJes0CdZqQ
