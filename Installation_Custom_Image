@@ -1,0 +1,26 @@
+@@@ Configure Custom Deep Learning Image
+@@@ Vincent
+@@@ Image: jetson-deeplearning-tf
+@@@ Version 1.0.0
+
+Image Base: jitteam/jetson-nano-tf-gpu
+
+Major Libraries: Tensorflow 1.13.1 and jupyter notebook avaliable
+
+1) Install basic dependencies
+   $ sudo apt-get update && sudo apt-get upgrade
+   $ sudo apt-get install build-essential
+   $ sudo apt-get install software-properties-common
+   $ sudo apt-get install git
+   $ sudo apt-get install jupyter
+
+2) Generate jupyter notebook config
+   $ jupyter notebook --generate-config
+
+3) Edit jupyter_notebook_config.py
+   Edit c.NotebookApp.allow_origin = '*' #allow all origins
+   Edit c.NotebookApp.ip = '0.0.0.0' # listen on all IPs
+
+4) Activate jupyter noteook
+   **Remember to start $kubectl proxy in master
+   $ jupyter noteook --allow-root

@@ -7,7 +7,7 @@ spec:
   hostNetwork: true
   containers:
     - name: jetson-tensorflow
-      image: nvcr.io/nvidia/l4t-base:r32.2.1
+      image: vincent51689453/jetson-deeplearning:v1.0.0
       command: [ "/bin/bash", "-ce", "tail -f /dev/null" ]
       ports:
         - containerPort: 8888
