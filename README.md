@@ -5,4 +5,4 @@ This repository is a guideline for setting up a GPU Cluster with Nvidia Jetson S
 ----------------------------
 The Nvidia Jetson AGX Xavier Developer Kit is the latest addition to the Jetson platform. It is an AI computer for autonomous machines and delivering the performance of a GPU workstation in an embedded module under 30W. It is optimial for robots, dones and other autonomous machines. 
 
-![image](https://github.com/vincent51689453/Kubernetes-Jetson-GPU-Clusters/blob/master/GitHub_Image/Xavier.jpg)
+![image](https://github.com/vincent51689453/Kubernetes-Jetson-GPU-Clusters/blob/master/GitHub_Image/Xavier_1.jpg)
