@@ -217,6 +217,7 @@ $ ./slave_join_master.sh
 ```
 ***The tokens inside are various based on the creation of clusters. You have to replace with your own tokens.***
 Master should be able to see the nodes.
+
 ![image](https://github.com/vincent51689453/Kubernetes-Jetson-GPU-Clusters/blob/master/GitHub_Image/Kubectl_get_node.png)
 
 13) Activate kubernetes service (evertime power on)
@@ -256,6 +257,45 @@ $ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0
 ```
 $ sudo kubectl proxy
 ```
+![image](https://github.com/vincent51689453/Kubernetes-Jetson-GPU-Clusters/blob/master/GitHub_Image/proxy.png)
+
+3) Open browser in **MASTER**
+```
+$ http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/
+```
+![image](https://github.com/vincent51689453/Kubernetes-Jetson-GPU-Clusters/blob/master/GitHub_Image/token_request.png)
+
+You will be able see a login page.
+
+4) In order to get the token, it is neccesary to add a admin to manage the entire cluster.
+```
+$ sudo kubectl create -f admin-role.ymal
+```
+The admin-role.ymal can be found in **YMAL-Config/services/**
+
+5) Get admin-token secret name
+```
+$ sudo kubectl -n kube-system get secret|grep admin-token
+```
+6) Get token value
+```
+$ sudo kubectl -n kube-system describe secret admin-token-sm4pn
+```
+***sm4pn*** should be your corresponding name
+
+![image](https://github.com/vincent51689453/Kubernetes-Jetson-GPU-Clusters/blob/master/GitHub_Image/token.png)
+
+7) Copy the token and login.
+![image](https://github.com/vincent51689453/Kubernetes-Jetson-GPU-Clusters/blob/master/GitHub_Image/Dashboard.png)
+
+### E. Customized Image vincent51689453/jetson-deeplearning
+https://hub.docker.com/repository/docker/vincent51689453/jetson-deeplearning
+The steps are all described in ***Installation_Custom_Image***.
+
+
+
+
+
 
 
 
