@@ -1,6 +1,4 @@
 # Kubernetes-Jetson-GPU-Clusters
-This repository is a guideline for setting up a Jetson GPU Clusters using kubernetes
+This repository is a guideline for setting up a GPU Cluster with Nvidia Jetson Series by Kubernetes. A **"Single Master Multi Slaves"** topology is implemented and tested using **Nvidia Jetson Xaiver (Master)** and **Nvidia Jetson TX2 (Slave)** with **JetPack 4.2.2**. 
 
-Cluster structure: Single Master- Multi Slaves
-
-Please follow Installation_Master and Installation_Slave to finish setup respectively. 
+![image] (https://github.com/vincent51689453/Kubernetes-Jetson-GPU-Clusters/blob/master/GitHub_Image/Xavier.jpg)
