@@ -83,7 +83,8 @@ $ sudo apt-get install -y kubelet kubeadm kubectl kubernetes-cni
 ```
 $ sudo kubeadm init --pod-network-cidr=10.244.10.0/16 --kubernetes-version 1.18.2
 ```
-***This command should only be executed on master node!. Never do it in the slave***
+***This command should only be executed on master node!. Never do it in the slave!***
+
 ***Please keep the tokens in the bottom carefully. They cannot be regenearted!***
 ![image](https://github.com/vincent51689453/Kubernetes-Jetson-GPU-Clusters/blob/master/GitHub_Image/join_master_info.png)
 
@@ -245,6 +246,12 @@ $ ./Maintainance/reset_node.sh
 $ ./Maintainance/slave_join_master.sh
 ```
 
+3) ***DNS Issue: you can ping through ip address but not domain name. You are failed to perform apt-get update inside container***
+```
+echo "nameserver 8.8.8.8" | sudo tee /etc/resolv.conf > /dev/null
+where 8.8.8.8 should be 158.132.14.1 in my case
+```
+
 ### D. Kubernetes DashBoard
 Please perform the followin operation in **MASTER** and refer to ***Installation_Dashboard***.
 Here is the reference url: https://kubernetes.io/zh/docs/tasks/access-application-cluster/web-ui-dashboard/
@@ -291,7 +298,8 @@ $ sudo kubectl -n kube-system describe secret admin-token-sm4pn
 
 ### E. Customized Image vincent51689453/jetson-deeplearning
 https://hub.docker.com/repository/docker/vincent51689453/jetson-deeplearning
-The steps are all described in ***Installation_Custom_Image***.
+
+The steps are all described in ***Installation_Custom_Image***. Please be careful for DNS issue in **PART C: Common issue**
 
 
 
