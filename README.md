@@ -16,4 +16,137 @@ The Nvidia Jetson TX2 is a deeplearning platform which is able to provide you ex
 **GPU Cluster Setup**
 ---------------------------
 ### A. Master Node
+The actual configuration steps I performed are written in ***Installation_Master***, some steps are not essential. You may refer to it if you have any difficulties. I will briefly explain the essential steps you have to perform while setting up master nodes.
+
+1) Install ***JetPack 4.2.2*** by SDK Manager but not necessary to install tensorflow
+
+2) Perform system update and system upgrade
+```
+$ sudo apt-get update && sudo apt-get upgrade
+```
+3) Install resources monitoring
+```
+$ sudo -H pip install -U jetson-stats
+$ sudo jtop
+```
+!!SUPPOSE TO PUT JTOP IMAGE
+
+4) Set to the highest power mode: MODE 30W ALL
+```
+$ sudo nvpmodel -m 3
+```
+5) Disable swap since it may cause issue with Kubernetes. Please notes that swap will be activated everytime the system starts. Remember to disable it.
+```
+$ sudo swapoff -a
+```
+6) Edit /etc/docker/daemon.json
+```
+$ sudo gedit /etc/docker/daemon.json
+```
+You can simply replace all the content of daemon.json with **Kubernetes-Jetson-GPU-Clusters/Maintainance/daemon.json**.
+7) Refresh system
+```
+$ sudo apt-get update
+$ sudo apt-get dist-upgrade
+```
+8) Add current user to docker group
+```
+$ sudo groupadd docker
+$ sudo usermod -aG docker ianvidia
+$ newgrp docker
+$ sudo reboot
+```
+Please change ianvidia to your own account.
+9) Test Docker GPU support
+```
+$ sudo docker run -it jitteam/devicequery ./deviceQuery
+```
+For the first time to execute this command, it will say there is no image locally. Therefore, please be patient for the system to pull the image from docker hub. If all the setup are done perfectly, you should get a **PASS** in this test.
+
+!!SUPPOSE TO PUT PASS IMAGE
+
+10) Install curl
+```
+$ sudo apt install curl
+```
+11) Install kuberenets k8s
+```
+$ sudo apt-get update && sudo apt-get install -y apt-transport-https gnupg2
+$ curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+$ echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+$ sudo apt-get update
+$ sudo apt-get install -y kubelet kubeadm kubectl kubernetes-cni
+```
+12) Confiure Master Node
+```
+$ sudo kubeadm init --pod-network-cidr=10.244.10.0/16 --kubernetes-version 1.18.2
+```
+***This command should only be executed on master node!. Never do it in the slave***
+***If you have any problem after initialize the network, you can reset it by the following.***
+```
+$ sudo kubeadm reset
+```
+13) Read the response from **(12)** carefully and perform the following
+```
+$ mkdir -p $HOME/.kube
+$ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+$ sudo chown $(id -u):$(id -g) $HOME/.kube/config
+```
+14) Apply flannel to the cluster
+```
+$ sysctl net.bridge.bridge-nf-call-iptables=1
+$ curl -O https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+$ sudo kubectl apply -f kube-flannel.yml
+```
+15) List out all the nodes
+```
+$ sudo kubectl get nodes
+```
+They should all in ***READY***.
+
+![image](https://github.com/vincent51689453/Kubernetes-Jetson-GPU-Clusters/blob/master/GitHub_Image/Kubectl_get_node.png)
+
+If you encounter an error message like: *"The connection to the sever localhost:8080 was refused - did you specify the right host or port?"*, execute the following to solve this iusse.
+```
+$ sudo cp /etc/kubernetes/admin.conf $HOME/
+$ sudo chown $(id -u):$(id -g) $HOME/admin.conf
+$ export KUBECONFIG=$HOME/admin.conf
+```
+16) ***Assume some slaves joined the network and they are READY"***, change slave label from <none> to worker
+```
+$ sudo kubectl label node jetson-tx2-004 node-role.kubernetes.io/worker=worker  
+```
+**jetson-tx2-004** is the device name of the slave.
+  
+17) Check wethere the cluster can support GPU
+```
+$ sudo kubectl apply -f gpu-clusters-test.yml
+$ kubectl logs devicequery
+```
+The gpu-cluster-test.yml is inside ***YMAL-Config/pod***.
+You should get another ***PASS*** in this test.
+
+18) Apply customized image
+```
+$ sudo kubectl apply -f deeplearning-gpu-cluster.ymal
+$ sudo kubectl get pod
+```
+The correct outpu should be the following.
+
+![image](https://github.com/vincent51689453/Kubernetes-Jetson-GPU-Clusters/blob/master/GitHub_Image/Kubectl_get_pod.png)
+
+If you want to get more detail about this pod, you may
+```
+$ sudo kubectl describe pod deeplearning
+```
+
+19) Attach to the customized container **only for the deeplearning-gpu-cluster**
+```
+$ ./access_jetson_tensorflow.sh
+```
+### B. Master Node
+
+
+
+
 
