@@ -44,6 +44,7 @@ $ sudo swapoff -a
 $ sudo gedit /etc/docker/daemon.json
 ```
 You can simply replace all the content of daemon.json with **Kubernetes-Jetson-GPU-Clusters/Maintainance/daemon.json**.
+
 7) Refresh system
 ```
 $ sudo apt-get update
